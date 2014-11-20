@@ -9,6 +9,8 @@ from behave import step
 
 from behaving.personas.persona import persona_vars
 from behaving.mobile.multiplatform import multiplatform
+from . import read_appium_config_and_set_params
+from . import read_sauce_labs_config_and_set_params
 
 
 def find_device_element_by_name_or_id(context, id):
@@ -37,9 +39,15 @@ def given_a_simulator_running_with_caps(context, caps):
 
 @step('an iOS simulator running "{name}"')
 def given_an_ios_simulator_running_app(context, name):
-    app_path = os.path.join(context.app_dir, name)
-    context.ios_app_name = name
-    given_a_simulator_running_with_caps(context, dict(context.ios_caps, app=app_path, noReset=False))
+    if hasattr(context, 'app_dir'):
+        app_path = os.path.join(context.app_dir, name)
+        context.ios_app_name = name
+        given_a_simulator_running_with_caps(context, dict(context.ios_caps, app=app_path, noReset=False))
+    else:
+        app_path = name
+        context.ios_app_name = name
+        given_a_simulator_running_with_caps(context, dict(context.ios_caps, app=app_path, noReset=False))
+
 
 
 @step('a dirty iOS simulator running "{name}"')
@@ -194,3 +202,25 @@ def switch_to_webview_context(context, context_name):
 
     if error is not None:
         assert False, "%s. Available contexts: %s" % (error, context.device.contexts)
+
+
+@step('a "{webdriver_location}" iOS simulator "{platform_version}" running "{app_path}"')
+def given_a_platform_and_device_on_platform_version_running_running_app(context, webdriver_location, platform_version, app_path):
+    if "SAUCE" in webdriver_location.upper():
+        read_sauce_labs_config_and_set_params(context, context.scenario)
+        #app_path = os.path.join(context.app_dir, name)
+        #context.ios_app_name = name
+        context.ios_caps['platformVersion']=platform_version
+        given_a_simulator_running_with_caps(context, dict(context.ios_caps, app=context.ios_caps['app'], noReset=False))
+    else:
+        read_appium_config_and_set_params(context, context.scenario)
+        #app_path = name
+        #context.ios_app_name = name
+        context.ios_caps['app']=app_path
+        context.ios_caps['platformVersion']=platform_version
+        given_a_simulator_running_with_caps(context, dict(context.ios_caps, app=context.ios_caps['app'], noReset=False))
+
+
+#TODO: Check for valid zip archive in sauce-storage location
+#TODO: Check for unauthenticated response from BSC's Bluecoat proxy
+#TODO: Check for max concurrent users and limit sessions to this number instead?
