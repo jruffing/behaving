@@ -24,7 +24,7 @@ setup(name='behaving',
       zip_safe=False,
       scripts=['run_behave.py'],
       dependency_links = ['http://github.com/tokunbo/behave-parallel/tarball/upstreamsync#egg=behave-1.2.4a1'],
-      install_requires=['setuptools', 'parse', 'behave==1.2.4a1', 'splinter==0.6.0', 'Appium-Python-Client', 'json', 'pyyaml'],
+      install_requires=['setuptools', 'parse', 'behave==1.2.4a1', 'splinter==0.6.0', 'Appium-Python-Client', 'simplejson', 'pyyaml', 'python-saucerest'],
       entry_points="""
       [console_scripts]
       mailmock = behaving.mail.mock:main

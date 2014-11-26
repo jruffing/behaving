@@ -18,7 +18,7 @@ def before_feature(context, feature):
 
 
 def before_scenario(context, scenario):
-    setup(context)
+    setup(context, scenario)
 
 
 def after_feature(context, feature):

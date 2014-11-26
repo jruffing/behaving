@@ -18,5 +18,5 @@ def setup(context):
             logger.error('No default sms path for smsmock is specified. Unable to create %s' % path)
             exit(1)
         context.sms_path = path
-    context.sms = FSInspector(context.sms_path)
-    context.sms.clear()
+    #context.sms = FSInspector(context.sms_path)
+    #context.sms.clear()

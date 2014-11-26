@@ -19,5 +19,5 @@ def setup(context):
             logger.error('No default mail path for mailmock is specified. Unable to create %s' % path)
             exit(1)
         context.mail_path = path
-    context.mail = FSInspector(context.mail_path)
-    context.mail.clear()
+    #context.mail = FSInspector(context.mail_path)
+    #context.mail.clear()

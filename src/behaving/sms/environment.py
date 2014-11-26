@@ -18,7 +18,8 @@ def after_feature(context, feature):
 
 
 def after_scenario(context, scenario):
-    context.sms.clear()
+    #context.sms.clear()
+    pass
 
 
 def after_all(context):
