@@ -1,6 +1,8 @@
-xcode_app_path: "/Users/jruffi01/Library/Developer/Xcode/DerivedData/ShieldStreams-enojswrlbyvusrgqbpkptnufvcny/Build/Products/Debug-iphonesimulator/ShieldStreams.app"
-appium-version: '1.3.0-beta1'
+xcode_app_path: "/Users/jruffi01/Library/Developer/Xcode/DerivedData/ShieldStreams-akclupapgjjblehcfzictuhcevch/Build/Products/Debug-iphonesimulator/ShieldStreamsIntegration.app"
+appium-version: '1.3.4'
 platformName: 'iOS'
-platformVersion: '8.0'
-deviceName: 'iPhone Simulator'
+platformVersion: '8.1'
+deviceName: 'iPhone 6'
 webdriver_url: 'http://127.0.0.1:4723/wd/hub'
+autoAcceptAlerts: False
+waitForAppScript: False

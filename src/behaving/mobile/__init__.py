@@ -16,12 +16,12 @@ def setup(context, scenario):
 
     # Setup some defaults b/c something didn't go well
     if not hasattr(context, 'webdriver_url'):
-        context.webdriver_url = 'http://127.0.0.1:4723/wd/hub'
+        context.webdriver_url = 'http://10.0.0.2:4723/wd/hub'
 
     if not hasattr(context, 'ios_caps'):
         context.ios_caps = {
             'platformName': 'iOS',
-            'platformVersion': '8.0',
+            'platformVersion': '8.1',
             'language': 'en',
             'deviceName': 'iPhone'
         }
@@ -36,7 +36,7 @@ def setup(context, scenario):
 
 
 def teardown(context):
-    if "sauce" in context.webdriver_url.lower():
+    if "SAUCE" in context.webdriver_url.upper():
         print("Link to your job: https://saucelabs.com/tests/%s" % context.device.session_id)
         #data = json.dumps({ "passed": sys.exc_info() == (None, None, None) })
         data = json.dumps({ "passed": context.scenario.status == "passed"})
@@ -116,7 +116,9 @@ def read_appium_config_and_set_params(context, scenario):
         'appium-version': appium_settings['appium-version'],
         'build': get_application_build_number(context),
         'app': appium_settings['xcode_app_path'],
-        'name': scenario.name
+        'name': scenario.name,
+        'autoAcceptAlerts': appium_settings['autoAcceptAlerts'],
+        'waitForAppScript': appium_settings['waitForAppScript']
         }
     context.local_app_path = appium_settings['xcode_app_path']
     context.webdriver_url = appium_settings['webdriver_url']

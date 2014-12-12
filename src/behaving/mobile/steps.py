@@ -6,7 +6,6 @@ from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from behave import step
-
 from behaving.personas.persona import persona_vars
 from behaving.mobile.multiplatform import multiplatform
 from . import read_appium_config_and_set_params
@@ -33,6 +32,8 @@ def given_a_simulator_running_with_caps(context, caps):
             command_executor=context.webdriver_url,
             desired_capabilities=caps
         )
+        #notifications_alert = TouchAction(context.driver)
+        #notifications_alert.press("0.75", "0.70").perform()
     except URLError:
         assert False, 'Appium is not running on the specified webdriver_url'
 
@@ -220,6 +221,15 @@ def given_a_platform_and_device_on_platform_version_running_running_app(context,
         context.ios_caps['platformVersion']=platform_version
         given_a_simulator_running_with_caps(context, dict(context.ios_caps, app=context.ios_caps['app'], noReset=False))
 
+
+@step('a "{local_or_sauce}" ios simulator')
+def given_a_ios_simulator(context, local_or_sauce):
+    if "SAUCE" in local_or_sauce.upper():
+        read_sauce_labs_config_and_set_params(context, context.scenario)
+        given_a_simulator_running_with_caps(context, dict(context.ios_caps, app=context.ios_caps['app'], noReset=False))
+    else:
+        read_appium_config_and_set_params(context, context.scenario)
+        given_a_simulator_running_with_caps(context, dict(context.ios_caps, app=context.ios_caps['app'], noReset=False))
 
 #TODO: Check for valid zip archive in sauce-storage location
 #TODO: Check for unauthenticated response from BSC's Bluecoat proxy
