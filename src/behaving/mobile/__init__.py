@@ -71,10 +71,23 @@ def read(filename):
 def read_sauce_labs_config_and_set_params(context, scenario):
     '''reads the sauce_labs.yaml config file and sets parameters'''
 
-    context.sauce_labs_credentials = read(context._config.saucelabs)
+    appium_settings = context.sauce_labs_credentials = read(context._config.saucelabs)
 
     if not context.sauce_labs_credentials['username']:
         raise 'username must be specified in the sauce labs config file.'
+
+    context.ios_caps = {
+      # http://appium.io/slate/en/master/?ruby#appium-server-capabilities
+      'platformName': appium_settings['platformName'],
+      'platformVersion': appium_settings['platformVersion'],
+      'language': 'en',
+      'deviceName': appium_settings['deviceName'],
+      'appium-version': appium_settings['appium-version'],
+      'build': get_application_build_number(context),
+      'name': scenario.name,
+      'autoAcceptAlerts': appium_settings['autoAcceptAlerts'],
+      'waitForAppScript': appium_settings['waitForAppScript']
+    }
 
     if context.sauce_labs_credentials['sauce_app_path']:
         context.ios_caps['app'] = context.sauce_labs_credentials['sauce_app_path']
